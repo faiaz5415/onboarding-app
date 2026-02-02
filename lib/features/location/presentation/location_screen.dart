@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_gradients.dart';
 import '../../../constants/app_text_styles.dart';
 import '../../../providers/location_provider.dart';
+import '../../alarm/presentation/alarm_screen.dart';
 
 class LocationScreen extends StatelessWidget {
   const LocationScreen({super.key});
@@ -53,7 +55,6 @@ class LocationScreen extends StatelessWidget {
 
               const SizedBox(height: 40),
 
-              // Image
               Image.asset(
                 'assets/images/location.png',
                 width: 305,
@@ -81,8 +82,10 @@ class LocationScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Icon(Icons.location_on,
-                          color: AppColors.white),
+                      const Icon(
+                        Icons.location_on,
+                        color: AppColors.white,
+                      ),
                       const SizedBox(width: 8),
                       Text(
                         'Use Current Location',
@@ -95,7 +98,7 @@ class LocationScreen extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              // Selected location text
+              // Selected Location text
               if (provider.isAllowed)
                 Text(
                   provider.locationText,
@@ -104,9 +107,20 @@ class LocationScreen extends StatelessWidget {
 
               const SizedBox(height: 24),
 
-              // Home button
+              // Home → AlarmScreen
               GestureDetector(
-                onTap: provider.isAllowed ? () {} : null,
+                onTap: provider.isAllowed
+                    ? () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => AlarmScreen(
+                        selectedLocation: provider.locationText,
+                      ),
+                    ),
+                  );
+                }
+                    : null,
                 child: Container(
                   width: 328,
                   height: 56,

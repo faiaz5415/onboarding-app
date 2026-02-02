@@ -3,14 +3,16 @@ import '../helpers/notification_helper.dart';
 import '../helpers/storage_helper.dart';
 
 class AlarmProvider extends ChangeNotifier {
-  List<Map<String, dynamic>> alarms = [];
+  List<Map<String, dynamic>> _alarms = [];
+
+  List<Map<String, dynamic>> get alarms => _alarms;
 
   AlarmProvider() {
     loadAlarms();
   }
 
   Future<void> loadAlarms() async {
-    alarms = await StorageHelper.load();
+    _alarms = await StorageHelper.load();
     notifyListeners();
   }
 
@@ -23,34 +25,34 @@ class AlarmProvider extends ChangeNotifier {
       'enabled': true,
     };
 
-    alarms.add(alarm);
+    _alarms.add(alarm);
 
     await NotificationHelper.schedule(
       id: alarmId,
       dateTime: dateTime,
     );
 
-    await StorageHelper.save(alarms);
+    await StorageHelper.save(_alarms);
     notifyListeners();
   }
 
   Future<void> toggleAlarm(int index) async {
-    alarms[index]['enabled'] = !alarms[index]['enabled'];
+    _alarms[index]['enabled'] = !_alarms[index]['enabled'];
 
-    final int alarmId = alarms[index]['id'] as int;
-    final DateTime time =
-    DateTime.parse(alarms[index]['time'] as String);
+    final int alarmId = _alarms[index]['id'] as int;
+    final DateTime alarmTime =
+    DateTime.parse(_alarms[index]['time'] as String);
 
-    if (alarms[index]['enabled']) {
+    if (_alarms[index]['enabled']) {
       await NotificationHelper.schedule(
         id: alarmId,
-        dateTime: time,
+        dateTime: alarmTime,
       );
     } else {
       await NotificationHelper.cancel(alarmId);
     }
 
-    await StorageHelper.save(alarms);
+    await StorageHelper.save(_alarms);
     notifyListeners();
   }
 }

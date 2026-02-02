@@ -84,6 +84,7 @@ class OnboardingScreen extends StatelessWidget {
                 onTap: () => onboardingProvider.nextPage(
                   _pages.length,
                   _pageController,
+                  context,
                 ),
                 child: Container(
                   width: 328,
