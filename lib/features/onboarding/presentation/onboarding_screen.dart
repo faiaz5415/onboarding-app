@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_gradients.dart';
+import '../../../constants/app_text_styles.dart';
 import '../../../common_widgets/dot_indicator.dart';
 import 'onboarding_page.dart';
 
@@ -66,13 +67,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 alignment: Alignment.centerRight,
                 child: TextButton(
                   onPressed: () {},
-                  child: const Text(
+                  child: Text(
                     'Skip',
-                    style: TextStyle(
-                      color: AppColors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: AppTextStyles.skip,
                   ),
                 ),
               ),
@@ -95,7 +92,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
               ),
 
-              // Dots
+              // Dots indicator
               DotIndicator(
                 currentIndex: _currentIndex,
                 count: _pages.length,
@@ -115,13 +112,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     borderRadius: BorderRadius.circular(69),
                   ),
                   alignment: Alignment.center,
-                  child: const Text(
+                  child: Text(
                     'Next',
-                    style: TextStyle(
-                      color: AppColors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: AppTextStyles.button,
                   ),
                 ),
               ),

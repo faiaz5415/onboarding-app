@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import '../../../constants/app_colors.dart';
+import '../../../constants/app_text_styles.dart';
 
 class OnboardingPage extends StatefulWidget {
   final String title;
@@ -44,7 +45,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       children: [
         const Spacer(),
 
-        // Video
+        // Video container
         Container(
           width: 360,
           height: 429,
@@ -64,7 +65,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
         const SizedBox(height: 24),
 
-        // Text
+        // Text content
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
@@ -72,20 +73,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
               Text(
                 widget.title,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: AppColors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: AppTextStyles.heading,
               ),
               const SizedBox(height: 16),
               Text(
                 widget.description,
                 textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: AppColors.white,
-                  fontSize: 14,
-                ),
+                style: AppTextStyles.description,
               ),
             ],
           ),
