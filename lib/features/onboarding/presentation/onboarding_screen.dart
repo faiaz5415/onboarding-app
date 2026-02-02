@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_gradients.dart';
-import 'onboarding_page.dart';
 import '../../../common_widgets/dot_indicator.dart';
+import 'onboarding_page.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -20,26 +20,35 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       'title': 'Discover the world, one journey at a time.',
       'desc':
       'From hidden gems to iconic destinations, we make travel simple and inspiring.',
+      'video': 'assets/videos/onboarding_1.mp4',
     },
     {
       'title': 'Explore new horizons, one step at a time.',
       'desc':
       'Every trip holds a story waiting to be lived.',
+      'video': 'assets/videos/onboarding_2.mp4',
     },
     {
       'title': 'See the beauty, one journey at a time.',
       'desc':
       'Travel made simple and exciting.',
+      'video': 'assets/videos/onboarding_3.mp4',
     },
   ];
 
   void _onNext() {
-    if (_currentIndex < 2) {
+    if (_currentIndex < _pages.length - 1) {
       _pageController.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
     }
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
@@ -52,7 +61,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         child: SafeArea(
           child: Column(
             children: [
-              // Skip
+              // Skip button
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
@@ -61,12 +70,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     'Skip',
                     style: TextStyle(
                       color: AppColors.white,
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
               ),
 
+              // PageView
               Expanded(
                 child: PageView.builder(
                   controller: _pageController,
@@ -78,11 +89,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     return OnboardingPage(
                       title: _pages[index]['title']!,
                       description: _pages[index]['desc']!,
+                      videoPath: _pages[index]['video']!,
                     );
                   },
                 ),
               ),
 
+              // Dots
               DotIndicator(
                 currentIndex: _currentIndex,
                 count: _pages.length,
@@ -90,6 +103,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
               const SizedBox(height: 24),
 
+              // Next button
               GestureDetector(
                 onTap: _onNext,
                 child: Container(
