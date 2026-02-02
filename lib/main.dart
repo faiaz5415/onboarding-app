@@ -4,8 +4,15 @@ import 'package:provider/provider.dart';
 import 'features/onboarding/presentation/onboarding_screen.dart';
 import 'providers/onboarding_provider.dart';
 import 'providers/location_provider.dart';
+import 'providers/alarm_provider.dart';
+import 'helpers/notification_helper.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize local notifications
+  await NotificationHelper.init();
+
   runApp(const MyApp());
 }
 
@@ -21,6 +28,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => LocationProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AlarmProvider(),
         ),
       ],
       child: MaterialApp(
