@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import 'features/onboarding/presentation/onboarding_screen.dart';
 import 'providers/onboarding_provider.dart';
+import 'providers/location_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +18,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => OnboardingProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LocationProvider(),
         ),
       ],
       child: MaterialApp(
