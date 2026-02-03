@@ -77,7 +77,7 @@ class LocationScreen extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 32), // 🔧 image spacing adjusted
+                const SizedBox(height: 32),
 
                 /// Image (Figma size & position)
                 Image.asset(

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class AppTextStyles {
-  // 🔹 ONBOARDING HEADING (default – onboarding 1 & 2)
+
   static const TextStyle onboardingHeading = TextStyle(
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w500,
-    fontSize: 24, // Display/xs equivalent
-    height: 34 / 24, // exact line-height
+    fontSize: 24,
+    height: 34 / 24,
     color: Colors.white,
     letterSpacing: 0,
   );
 
-  // 🔹 ONBOARDING HEADING WITH SHADOW (only onboarding 1)
+
   static const TextStyle onboardingHeadingShadow = TextStyle(
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w500,
@@ -28,7 +28,7 @@ class AppTextStyles {
     ],
   );
 
-  // 🔹 ONBOARDING HEADING SMALL (onboarding 3)
+
   static const TextStyle onboardingHeadingSmall = TextStyle(
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w500,
@@ -38,7 +38,7 @@ class AppTextStyles {
     letterSpacing: 0,
   );
 
-  // 🔹 DESCRIPTION (default – onboarding 1)
+
   static const TextStyle onboardingDescription = TextStyle(
     fontFamily: 'Oxygen',
     fontWeight: FontWeight.w400,
@@ -48,7 +48,7 @@ class AppTextStyles {
     letterSpacing: 0,
   );
 
-  // 🔹 DESCRIPTION COMPACT (onboarding 2 & 3)
+
   static const TextStyle onboardingDescriptionCompact = TextStyle(
     fontFamily: 'Oxygen',
     fontWeight: FontWeight.w400,

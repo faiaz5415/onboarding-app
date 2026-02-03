@@ -115,7 +115,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
         const SizedBox(height: 32),
 
-        // 🔹 TEXT CONTENT (TYPOGRAPHY FIXED)
+
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
@@ -133,7 +133,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
               const SizedBox(height: 12),
 
-              // Description
+
               Text(
                 widget.description,
                 style: _isFirst

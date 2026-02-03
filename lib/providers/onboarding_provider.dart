@@ -23,7 +23,7 @@ class OnboardingProvider extends ChangeNotifier {
         curve: Curves.easeInOut,
       );
     } else {
-      // Last onboarding page → Location screen
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

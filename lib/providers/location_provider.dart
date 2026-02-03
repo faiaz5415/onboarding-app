@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import '../helpers/permission_helper.dart';
 
 class LocationProvider extends ChangeNotifier {

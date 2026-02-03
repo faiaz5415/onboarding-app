@@ -17,7 +17,7 @@ class _AddAlarmDialogState extends State<AddAlarmDialog> {
     final date = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
+      firstDate: DateTime(2025, 1, 1),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
 
@@ -98,10 +98,10 @@ class _AddAlarmDialogState extends State<AddAlarmDialog> {
           onPressed: _selectedDateTime == null
               ? null
               : () async {
-            // ✅ FIX: Add await to ensure addAlarm completes before closing dialog
+
             await context.read<AlarmProvider>().addAlarm(_selectedDateTime!);
 
-            // ✅ FIX: Check if widget is still mounted before popping
+
             if (mounted) {
               Navigator.pop(context);
             }
