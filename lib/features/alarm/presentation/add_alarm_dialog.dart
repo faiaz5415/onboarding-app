@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../providers/alarm_provider.dart';
-import '../../../constants/app_text_styles.dart';
 import '../../../constants/app_colors.dart';
+import '../../../providers/alarm_provider.dart';
 
 class AddAlarmDialog extends StatefulWidget {
   const AddAlarmDialog({super.key});
@@ -14,24 +13,24 @@ class AddAlarmDialog extends StatefulWidget {
 class _AddAlarmDialogState extends State<AddAlarmDialog> {
   DateTime? _selectedDateTime;
 
-  Future<void> _pickTimeAndDate(BuildContext context) async {
-    // 1️⃣ Time Picker
+  Future<void> _pickDateTime() async {
+    final date = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+
+    if (date == null) return;
+
+    if (!mounted) return;
+
     final time = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
 
     if (time == null) return;
-
-    // 2️⃣ Date Picker
-    final date = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2100),
-    );
-
-    if (date == null) return;
 
     setState(() {
       _selectedDateTime = DateTime(
@@ -47,66 +46,83 @@ class _AddAlarmDialogState extends State<AddAlarmDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: AppColors.darkBlue,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
       ),
-      title: const Text('Add Alarm'),
+      title: const Text(
+        'Add Alarm',
+        style: TextStyle(
+          color: Colors.white,
+          fontFamily: 'Poppins',
+          fontWeight: FontWeight.w600,
+        ),
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Select Time & Date
-          GestureDetector(
-            onTap: () => _pickTimeAndDate(context),
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(
-                vertical: 14,
-                horizontal: 12,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey),
-              ),
-              child: Text(
-                _selectedDateTime == null
-                    ? 'Select Time & Date'
-                    : '${_selectedDateTime!.hour.toString().padLeft(2, '0')}:'
-                    '${_selectedDateTime!.minute.toString().padLeft(2, '0')} · '
-                    '${_selectedDateTime!.day}/'
-                    '${_selectedDateTime!.month}/'
-                    '${_selectedDateTime!.year}',
-                style: AppTextStyles.description,
+          ElevatedButton.icon(
+            onPressed: _pickDateTime,
+            icon: const Icon(Icons.schedule, color: Colors.white),
+            label: Text(
+              _selectedDateTime == null
+                  ? 'Pick Date & Time'
+                  : '${_selectedDateTime!.day}/${_selectedDateTime!.month}/${_selectedDateTime!.year} '
+                  '${TimeOfDay.fromDateTime(_selectedDateTime!).format(context)}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontFamily: 'Poppins',
               ),
             ),
-          ),
-
-          const SizedBox(height: 20),
-
-          // Save Button
-          SizedBox(
-            width: double.infinity,
-            height: 48,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.primary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
-              onPressed: _selectedDateTime == null
-                  ? null
-                  : () async {
-                await context
-                    .read<AlarmProvider>()
-                    .addAlarm(_selectedDateTime!);
-
-                Navigator.pop(context);
-              },
-              child: const Text('Save'),
             ),
           ),
         ],
       ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text(
+            'Cancel',
+            style: TextStyle(
+              color: Colors.white70,
+              fontFamily: 'Poppins',
+            ),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: _selectedDateTime == null
+              ? null
+              : () async {
+            // ✅ FIX: Add await to ensure addAlarm completes before closing dialog
+            await context.read<AlarmProvider>().addAlarm(_selectedDateTime!);
+
+            // ✅ FIX: Check if widget is still mounted before popping
+            if (mounted) {
+              Navigator.pop(context);
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.primary,
+            disabledBackgroundColor: Colors.white24,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          child: const Text(
+            'Add',
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'Poppins',
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
+

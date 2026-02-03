@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import '../../../constants/app_colors.dart';
 import '../../../constants/app_gradients.dart';
-import '../../../constants/app_text_styles.dart';
 import '../../../providers/alarm_provider.dart';
 import 'add_alarm_dialog.dart';
 
@@ -33,7 +32,6 @@ class AlarmScreen extends StatelessWidget {
               children: [
                 const SizedBox(height: 12),
 
-                /// Selected Location label
                 const Text(
                   'Selected Location',
                   style: TextStyle(
@@ -45,7 +43,6 @@ class AlarmScreen extends StatelessWidget {
 
                 const SizedBox(height: 8),
 
-                /// Location display pill
                 Container(
                   height: 48,
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -73,7 +70,6 @@ class AlarmScreen extends StatelessWidget {
 
                 const SizedBox(height: 24),
 
-                /// Alarms title
                 const Text(
                   'Alarms',
                   style: TextStyle(
@@ -86,10 +82,17 @@ class AlarmScreen extends StatelessWidget {
 
                 const SizedBox(height: 16),
 
-                /// Alarm list
                 Expanded(
                   child: alarmProvider.alarms.isEmpty
-                      ? const SizedBox()
+                      ? const Center(
+                    child: Text(
+                      'No alarms yet',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                  )
                       : ListView.separated(
                     itemCount: alarmProvider.alarms.length,
                     separatorBuilder: (_, __) =>
@@ -111,15 +114,13 @@ class AlarmScreen extends StatelessWidget {
 
                       return Container(
                         height: 56,
-                        padding:
-                        const EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         decoration: BoxDecoration(
                           color: Colors.white.withOpacity(0.12),
                           borderRadius: BorderRadius.circular(28),
                         ),
                         child: Row(
                           children: [
-                            /// Time
                             Text(
                               timeText,
                               style: const TextStyle(
@@ -128,10 +129,7 @@ class AlarmScreen extends StatelessWidget {
                                 fontFamily: 'Poppins',
                               ),
                             ),
-
                             const Spacer(),
-
-                            /// Date
                             Text(
                               dateText,
                               style: TextStyle(
@@ -140,10 +138,7 @@ class AlarmScreen extends StatelessWidget {
                                 fontFamily: 'Poppins',
                               ),
                             ),
-
                             const SizedBox(width: 12),
-
-                            /// Toggle
                             Switch(
                               value: alarm['enabled'],
                               activeColor: AppColors.primary,
@@ -165,17 +160,21 @@ class AlarmScreen extends StatelessWidget {
         ),
       ),
 
-      /// Floating Add Button
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primary,
-        onPressed: () {
-          showDialog(
+        onPressed: () async {
+          // ✅ CORRECT FLOW
+          final selectedDateTime = await showDialog<DateTime>(
             context: context,
             builder: (_) => const AddAlarmDialog(),
           );
+
+          if (selectedDateTime != null) {
+            context.read<AlarmProvider>().addAlarm(selectedDateTime);
+          }
         },
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(30.0))
+          borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
         child: const Icon(Icons.add, color: Colors.white),
       ),

@@ -8,16 +8,23 @@ class AlarmProvider extends ChangeNotifier {
   List<Map<String, dynamic>> get alarms => _alarms;
 
   AlarmProvider() {
-    loadAlarms();
+    _init();
+  }
+
+  // 🔹 Async init wrapper (safer than calling async directly in constructor)
+  Future<void> _init() async {
+    await loadAlarms();
   }
 
   Future<void> loadAlarms() async {
-    _alarms = await StorageHelper.load();
+    final loadedAlarms = await StorageHelper.load();
+    _alarms = List<Map<String, dynamic>>.from(loadedAlarms);
     notifyListeners();
   }
 
   Future<void> addAlarm(DateTime dateTime) async {
-    final int alarmId = DateTime.now().millisecondsSinceEpoch;
+    final int alarmId =
+    DateTime.now().millisecondsSinceEpoch & 0x7FFFFFFF;
 
     final alarm = {
       'id': alarmId,
@@ -25,7 +32,8 @@ class AlarmProvider extends ChangeNotifier {
       'enabled': true,
     };
 
-    _alarms.add(alarm);
+    // ✅ Always create a NEW list reference
+    _alarms = [..._alarms, alarm];
 
     await NotificationHelper.schedule(
       id: alarmId,
@@ -37,13 +45,24 @@ class AlarmProvider extends ChangeNotifier {
   }
 
   Future<void> toggleAlarm(int index) async {
-    _alarms[index]['enabled'] = !_alarms[index]['enabled'];
+    final updatedAlarms =
+    List<Map<String, dynamic>>.from(_alarms);
 
-    final int alarmId = _alarms[index]['id'] as int;
+    final current = updatedAlarms[index];
+    final bool newState = !(current['enabled'] as bool);
+
+    updatedAlarms[index] = {
+      ...current,
+      'enabled': newState,
+    };
+
+    _alarms = updatedAlarms;
+
+    final int alarmId = current['id'] as int;
     final DateTime alarmTime =
-    DateTime.parse(_alarms[index]['time'] as String);
+    DateTime.parse(current['time'] as String);
 
-    if (_alarms[index]['enabled']) {
+    if (newState) {
       await NotificationHelper.schedule(
         id: alarmId,
         dateTime: alarmTime,
