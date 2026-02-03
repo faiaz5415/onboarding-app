@@ -91,37 +91,37 @@ presentation/
 
 ### 1️⃣ Onboarding Flow
 
-Users are introduced to the app through three onboarding screens.
+Users are introduced to the app through a three-step onboarding experience that explains the core purpose and features of the application.
 
-| Screen       | Preview                           |
-|--------------|-----------------------------------|
-| Onboarding 1 | ![](presentation/onboarding1.png) |
-| Onboarding 2 | ![](presentation/onboarding2.png) |
-| Onboarding 3 | ![](presentation/onboarding3.png) |
+<p align="center">
+  <img src="presentation/onboarding1.png" width="240" />
+  <img src="presentation/onboarding2.png" width="240" />
+  <img src="presentation/onboarding3.png" width="240" />
+</p>
 
 ---
 
 ### 2️⃣ Location Setup Flow
 
-After onboarding, users are prompted to grant location permission.
+After completing onboarding, users are guided through the location permission flow required for the app to function correctly.
 
-| State              | Preview                         |
-|--------------------|---------------------------------|
-| Initial Screen     | ![](presentation/location1.png) |
-| Permission Request | ![](presentation/location2.png) |
-| Permission Granted | ![](presentation/location3.png) |
+<p align="center">
+  <img src="presentation/location1.png" width="240" />
+  <img src="presentation/location2.png" width="240" />
+  <img src="presentation/location3.png" width="240" />
+</p>
 
 ---
 
 ### 3️⃣ Alarm Management Flow
 
-Users can add and manage alarms once location is set.
+Once the location is set, users can create and manage alarms using a clean and intuitive interface.
 
-| State              | Preview                      |
-|--------------------|------------------------------|
-| Empty Alarm Screen | ![](presentation/alarm1.png) |
-| Add Alarm Dialog   | ![](presentation/alarm2.png) |
-| Alarm Added        | ![](presentation/alarm3.png) |
+<p align="center">
+  <img src="presentation/alarm1.png" width="260" />
+  <img src="presentation/alarm2.png" width="260" />
+  <img src="presentation/alarm3.png" width="260" />
+</p>
 
 
 ## 🏗 Architecture
